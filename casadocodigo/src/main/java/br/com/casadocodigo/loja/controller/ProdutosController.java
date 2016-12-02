@@ -7,9 +7,11 @@ package br.com.casadocodigo.loja.controller;
 
 import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.model.Produto;
+import br.com.casadocodigo.loja.model.TipoPreco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -22,12 +24,18 @@ public class ProdutosController {
     private ProdutoDAO produtoDao;
     
     @RequestMapping("/produtos/form")
-    public String form(){
-        return "produtos/form";
+    public ModelAndView form(){
+        
+        ModelAndView modelView = new ModelAndView("produtos/form");
+        
+        modelView.addObject("tipos", TipoPreco.values());
+        
+        return modelView;
     }
     
     @RequestMapping("/produtos")
     public String save(Produto produto){
+        
         produtoDao.save(produto);
         
         System.out.println(produto.toString());
