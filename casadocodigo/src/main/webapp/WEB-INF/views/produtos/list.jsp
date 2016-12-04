@@ -15,7 +15,7 @@
     Casa do código</title>
 </head>
 <body>
-    <div>${sucesso}</div>
+    <div>${mensagem}</div>
     <table>
         <tr>
             <td>Título</td>

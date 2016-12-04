@@ -34,6 +34,8 @@ public class Produto implements Serializable {
     
     private Calendar dataLancamento;
     
+    private String sumarioPath;
+    
     @ElementCollection
     private List<Preco> precos;
 
@@ -83,6 +85,14 @@ public class Produto implements Serializable {
 
     public void setDataLancamento(Calendar dataLancamento) {
         this.dataLancamento = dataLancamento;
+    }
+
+    public String getSumarioPath() {
+        return sumarioPath;
+    }
+
+    public void setSumarioPath(String sumarioPath) {
+        this.sumarioPath = sumarioPath;
     }
     
     @Override
