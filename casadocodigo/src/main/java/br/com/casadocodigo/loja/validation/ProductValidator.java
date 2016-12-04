@@ -31,7 +31,7 @@ public class ProductValidator implements Validator {
         Produto produto = (Produto) o;
         
         if(produto.getPaginas() <= 0){
-            errors.rejectValue("paginas", "filed.required");
+            errors.rejectValue("paginas", "field.required");
         }
     }
 }

@@ -50,7 +50,7 @@ public class ProdutosController {
     public ModelAndView save(@Valid Produto produto, BindingResult result, RedirectAttributes redirectAtt){
         
         if(result.hasErrors()){
-            return new ModelAndView("redirect:produtos/form");
+            return form();
         }
         
         produtoDao.save(produto);
