@@ -8,8 +8,13 @@ package br.com.casadocodigo.loja.controller;
 import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.model.Produto;
 import br.com.casadocodigo.loja.model.TipoPreco;
+import br.com.casadocodigo.loja.validation.ProductValidator;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +31,11 @@ public class ProdutosController {
     @Autowired
     private ProdutoDAO produtoDao;
     
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.addValidators(new ProductValidator());
+    }
+    
     @RequestMapping("/form")
     public ModelAndView form(){
         
@@ -37,7 +47,11 @@ public class ProdutosController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView save(Produto produto, RedirectAttributes redirectAtt){
+    public ModelAndView save(@Valid Produto produto, BindingResult result, RedirectAttributes redirectAtt){
+        
+        if(result.hasErrors()){
+            return new ModelAndView("redirect:produtos/form");
+        }
         
         produtoDao.save(produto);
         
