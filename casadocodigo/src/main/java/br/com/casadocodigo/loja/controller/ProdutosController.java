@@ -11,19 +11,22 @@ import br.com.casadocodigo.loja.model.TipoPreco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
  * @author regis
  */
 @Controller
+@RequestMapping("/produtos")
 public class ProdutosController {
     
     @Autowired
     private ProdutoDAO produtoDao;
     
-    @RequestMapping("/produtos/form")
+    @RequestMapping("/form")
     public ModelAndView form(){
         
         ModelAndView modelView = new ModelAndView("produtos/form");
@@ -33,14 +36,24 @@ public class ProdutosController {
         return modelView;
     }
     
-    @RequestMapping("/produtos")
-    public String save(Produto produto){
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView save(Produto produto, RedirectAttributes redirectAtt){
         
         produtoDao.save(produto);
         
-        System.out.println(produto.toString());
+        redirectAtt.addFlashAttribute("sucesso", "Produto Cadastrado com Sucesso!");
         
-        return "produtos/ok";
+        return new ModelAndView("redirect:produtos");
+    }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView list(){
+        
+        ModelAndView modelAndView = new ModelAndView("produtos/list");
+        
+        modelAndView.addObject("produtos", produtoDao.list());
+        
+        return modelAndView;    
     }
     
 }
