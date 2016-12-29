@@ -6,6 +6,7 @@
 package br.com.casadocodigo.loja.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -28,15 +29,15 @@ public class Produto implements Serializable {
     private int id;
 
     private String titulo;
-    
+
     @Lob
     private String descricao;
     private int paginas;
-    
+
     private Calendar dataLancamento;
-    
+
     private String sumarioPath;
-    
+
     @ElementCollection
     private List<Preco> precos;
 
@@ -144,9 +145,16 @@ public class Produto implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "Produto{" + "titulo=" + titulo + ", descricao=" + descricao + ", paginas=" + paginas + '}';
+    }
+
+    public BigDecimal precoPara(TipoPreco tipoPreco) {
+        return precos.stream().filter(preco -> preco.getTipo().equals(tipoPreco))
+                .findFirst()
+                .get()
+                .getValor();
     }
 }

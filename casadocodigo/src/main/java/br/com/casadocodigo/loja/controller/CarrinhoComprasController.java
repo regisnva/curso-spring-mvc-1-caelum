@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/carrinho")
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
-public class CarrinhoController {
+public class CarrinhoComprasController {
 
     @Autowired
     ProdutoDAO produtoDao;
@@ -31,7 +31,7 @@ public class CarrinhoController {
     @RequestMapping(method = RequestMethod.POST, value = "/add")
     public ModelAndView add(Integer produtoId, TipoPreco tipo) {
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/produtos");
+        ModelAndView modelAndView = new ModelAndView("redirect:/carrinho");
         CarrinhoItem carrinhoItem = create(produtoId, tipo);
         carrinhoCompras.add(carrinhoItem);
 
@@ -44,6 +44,11 @@ public class CarrinhoController {
         CarrinhoItem carrinhoItem = new CarrinhoItem(produto, tipoPreco);
 
         return carrinhoItem;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView itens(){
+        return new ModelAndView("carrinhos/itens");
     }
 
 }
