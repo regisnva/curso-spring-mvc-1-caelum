@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,7 +63,7 @@ public class ProdutosController {
                 return form(produto);
             }
 
-            produto.setSumarioPath(fileSaver.save("arquivos-sumario", sumario)); 
+            produto.setSumarioPath(fileSaver.save("arquivos-sumario", sumario));
 
             produtoDao.save(produto);
 
@@ -83,6 +84,11 @@ public class ProdutosController {
         modelAndView.addObject("produtos", produtoDao.list());
 
         return modelAndView;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "detalhe/{id}")
+    public ModelAndView detail(@PathVariable("id") Integer id) {
+        return new ModelAndView("produtos/detalhe", "produto", produtoDao.find(id));
     }
 
 }
